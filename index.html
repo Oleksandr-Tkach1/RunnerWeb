@@ -99,7 +99,7 @@
             telegramScript.setAttribute('data-onauth', "onTelegramAuth(user)");
             telegramScript.setAttribute('data-request-access', "write");
             document.body.appendChild(telegramScript);
-            
+
             // Function to open the Telegram login widget
             function openTelegramWidget() {
                 if (typeof Telegram !== 'undefined') {
@@ -110,8 +110,8 @@
                 }
             }
 
-            // Call the function to open the widget immediately
-            openTelegramWidget();
+            // Call the function to open the widget immediately after loading
+            setTimeout(openTelegramWidget, 1000); // Adjust the delay if necessary
         }).catch((message) => {
             alert(message);
         });
