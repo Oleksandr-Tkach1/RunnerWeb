@@ -7,14 +7,14 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <style>
-        /* Стили для центрирования кнопки */
-        #telegram-login-wrapper {
-            display: none; /* Начально скрываем обертку */
-            position: absolute;
+        /* Центрирование элементов по центру экрана */
+        #centered-content {
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 1000; /* Выше других элементов */
+            text-align: center;
+            display: none; /* По умолчанию скрыто */
         }
     </style>
 </head>
@@ -35,15 +35,17 @@
     </div>
 </div>
 
-<!-- Обертка для кнопки Telegram -->
-<div id="telegram-login-wrapper">
-    <!-- Telegram кнопка -->
-    <script async src="https://telegram.org/js/telegram-widget.js?22"
-            data-telegram-login="TestAuth34766543_bot"
-            data-size="large"
-            data-onauth="onTelegramAuth(user)"
-            data-request-access="write"></script>
+<!-- Центрированное содержимое с кнопкой Telegram -->
+<div id="centered-content">
+    <button id="telegram-login-button">Войти через Telegram</button>
 </div>
+
+<!-- Telegram Widget -->
+<script async src="https://telegram.org/js/telegram-widget.js?22"
+        data-telegram-login="TestAuth34766543_bot"
+        data-size="large"
+        data-onauth="onTelegramAuth(user)"
+        data-request-access="write"></script>
 
 <script>
     var container = document.querySelector("#unity-container");
@@ -51,10 +53,11 @@
     var loadingBar = document.querySelector("#unity-loading-bar");
     var progressBarFull = document.querySelector("#unity-progress-bar-full");
     var fullscreenButton = document.querySelector("#unity-fullscreen-button");
-    var warningBanner = document.querySelector("#unity-warning");
+    var centeredContent = document.querySelector("#centered-content");
 
     // Function to show a temporary message banner/ribbon
     function unityShowBanner(msg, type) {
+        var warningBanner = document.querySelector("#unity-warning");
         function updateBannerVisibility() {
             warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
         }
@@ -111,16 +114,10 @@
                 unityInstance.SetFullscreen(1);
             };
 
-            // Function to show Telegram login widget
-            function showTelegramLogin() {
-                var telegramWrapper = document.getElementById('telegram-login-wrapper');
-                telegramWrapper.style.display = 'block';
-            }
-
-            // Function to hide Telegram login widget after authentication
-            function hideTelegramLogin() {
-                var telegramWrapper = document.getElementById('telegram-login-wrapper');
-                telegramWrapper.style.display = 'none';
+            // Function to open Telegram widget
+            function openTelegramWidget() {
+                // Show centered content with Telegram button
+                centeredContent.style.display = 'block';
             }
 
             // Wait for the Telegram widget to be fully loaded
@@ -128,10 +125,7 @@
                 var widget = document.querySelector('.telegram-login-button');
                 if (widget) {
                     clearInterval(intervalId); // Stop checking once found
-                    showTelegramLogin(); // Show the Telegram login button
-                    widget.addEventListener('click', function() {
-                        hideTelegramLogin(); // Hide the Telegram login button after click
-                    });
+                    openTelegramWidget(); // Show the centered content
                 }
             }, 1000); // Check every second
 
@@ -144,6 +138,8 @@
     // Callback function when user is authenticated via Telegram
     function onTelegramAuth(user) {
         alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+        // Hide centered content
+        centeredContent.style.display = 'none';
         // Add any additional logic here after authentication
     }
 </script>
