@@ -127,7 +127,7 @@
 
     function redirectToTelegramAuth() {
         var url = "https://oauth.telegram.org/auth?bot_id=7403200592&origin=https%3A%2F%2Foleksandr-tkach1.github.io&embed=1&request_access=write&return_to=https%3A%2F%2Foleksandr-tkach1.github.io%2FRunnerWeb%2F";
-        window.location.href = url;
+        window.open(url, '_blank');
     }
 
     function onTelegramAuth(user) {
