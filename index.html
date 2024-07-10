@@ -25,11 +25,13 @@
 </div>
 
 <!-- Telegram Widget -->
-<script async src="https://telegram.org/js/telegram-widget.js?22"
-        data-telegram-login="TestAuth34766543_bot"
-        data-size="large"
-        data-onauth="onTelegramAuth(user)"
-        data-request-access="write"></script>
+<body class="widget_frame_base tgme_widget body_widget_login">
+    <div class="tgme_widget_login large" id="widget_login"><button class="btn tgme_widget_login_button" onclick="return TWidgetLogin.auth();"><i class="tgme_widget_login_button_icon"></i>Войти как <span dir="auto">Oleksandr</span></button><i class="tgme_widget_login_user_photo bgcolor4" data-content="O" onclick="return TWidgetLogin.auth();"><img src="https://cdn4.telesco.pe/file/HKgfmRkklJ1EdiJi5MKGM5L4LSIxl_sfNY_nCQhAp6qtP8U3PSYMWEbDzDqAuobnZfBjZVu1LFqLsAG-D58MoToNTwG9KHG9N2lAARIhEVT2wgUsyYFQQWpt5cpXKGQg7ZzA523yWXq_EGUwZS1TsjTzBQqlPmvUhDmYZF8JTtphZqhP3-cqypEkaC1-N1hcZj5Se1llocis2l0FqEgvOUoZDQq5slYj1vaGJFL9wPWZYA3g5O01cuMhdLghjP51Iu9zwRV2qtMoYm2vA7Ut00a1hHfXCqyVPLpaCZNXlDHaavJSfq5UnLGk8sdnWWTdA914SEHJkdJDOwlvG1IhGA.jpg"></i></div>
+    <script src="https://telegram.org/js/widget-frame.js?62"></script>
+    <script>
+        TWidgetLogin.init('widget_login', 7403200592, {"origin":"https:\/\/oleksandr-tkach1.github.io","embed":1,"request_access":"write","return_to":"https:\/\/oleksandr-tkach1.github.io\/RunnerWeb\/"}, false);
+    </script>
+</body>
 
 <script>
     var container = document.querySelector("#unity-container");
@@ -39,7 +41,7 @@
     var fullscreenButton = document.querySelector("#unity-fullscreen-button");
     var warningBanner = document.querySelector("#unity-warning");
 
-    // Функция для отображения временного сообщения
+    // Function to show a temporary message banner/ribbon
     function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
             warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
@@ -71,7 +73,7 @@
         showBanner: unityShowBanner,
     };
 
-    // Проверяем, является ли пользователь мобильным устройством
+    // Check if the user is on a mobile device
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         var meta = document.createElement('meta');
         meta.name = 'viewport';
@@ -97,26 +99,26 @@
                 unityInstance.SetFullscreen(1);
             };
 
-            // Функция для открытия виджета Telegram
+            // Function to open Telegram widget
             function openTelegramWidget() {
-                // Проверяем, существует ли кнопка виджета Telegram
-                var widget = document.querySelector('.telegram-login-button');
+                // Check if the Telegram widget button exists
+                var widget = document.querySelector('.tgme_widget_login_button');
                 if (widget) {
-                    // Нажимаем на кнопку
+                    // Click the widget
                     widget.click();
                 } else {
-                    console.error('Кнопка виджета Telegram не найдена.');
+                    console.error('Telegram widget button not found.');
                 }
             }
 
-            // Ждем полной загрузки виджета Telegram
+            // Wait for the Telegram widget to be fully loaded
             var intervalId = setInterval(function() {
-                var widget = document.querySelector('.telegram-login-button');
+                var widget = document.querySelector('.tgme_widget_login_button');
                 if (widget) {
-                    clearInterval(intervalId); // Прекращаем проверку, когда найдено
-                    openTelegramWidget(); // Нажимаем на кнопку
+                    clearInterval(intervalId); // Stop checking once found
+                    openTelegramWidget(); // Click the widget
                 }
-            }, 1000); // Проверяем каждую секунду
+            }, 1000); // Check every second
 
         }).catch((message) => {
             alert(message);
@@ -124,10 +126,10 @@
     };
     document.body.appendChild(script);
 
-    // Функция обратного вызова при аутентификации через Telegram
+    // Callback function when user is authenticated via Telegram
     function onTelegramAuth(user) {
-        alert('Вход выполнен как ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
-        // Добавьте любую дополнительную логику здесь после аутентификации
+        alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+        // Add any additional logic here after authentication
     }
 </script>
 </body>
