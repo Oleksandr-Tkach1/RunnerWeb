@@ -99,16 +99,24 @@
 
             // Function to open Telegram widget
             function openTelegramWidget() {
+                // Check if the Telegram widget button exists
                 var widget = document.querySelector('.telegram-login-button');
                 if (widget) {
+                    // Click the widget
                     widget.click();
                 } else {
                     console.error('Telegram widget button not found.');
                 }
             }
 
-            // Delay execution to ensure Telegram widget is loaded
-            setTimeout(openTelegramWidget, 10000); // Adjust delay as needed
+            // Wait for the Telegram widget to be fully loaded
+            var intervalId = setInterval(function() {
+                var widget = document.querySelector('.telegram-login-button');
+                if (widget) {
+                    clearInterval(intervalId); // Stop checking once found
+                    openTelegramWidget(); // Click the widget
+                }
+            }, 1000); // Check every second
 
         }).catch((message) => {
             alert(message);
