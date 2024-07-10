@@ -25,9 +25,23 @@
         if (telegramButton) {
           console.log("Telegram button found:", telegramButton);
           try {
-            telegramButton.click();
-            console.log("Telegram button clicked.");
-            clearInterval(intervalId);
+            const iframe = document.querySelector('iframe');
+            if (iframe) {
+              console.log("Iframe found:", iframe);
+              const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+              const iframeButton = iframeDoc.querySelector('button');
+              if (iframeButton) {
+                iframeButton.click();
+                console.log("Iframe button clicked.");
+                clearInterval(intervalId);
+              } else {
+                console.log("Iframe button not found.");
+              }
+            } else {
+              telegramButton.click();
+              console.log("Telegram button clicked.");
+              clearInterval(intervalId);
+            }
           } catch (error) {
             console.error("Error clicking the Telegram button:", error);
           }
