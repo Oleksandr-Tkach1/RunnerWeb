@@ -14,7 +14,11 @@
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            display: none; /* По умолчанию скрыто */
+        }
+
+        /* Initially hide the Unity container */
+        #unity-container {
+            display: none;
         }
     </style>
 </head>
@@ -37,15 +41,12 @@
 
 <!-- Центрированное содержимое с кнопкой Telegram -->
 <div id="centered-content">
-    <button id="telegram-login-button">Войти через Telegram</button>
+    <script async src="https://telegram.org/js/telegram-widget.js?22"
+            data-telegram-login="TestAuth34766543_bot"
+            data-size="large"
+            data-onauth="onTelegramAuth(user)"
+            data-request-access="write"></script>
 </div>
-
-<!-- Telegram Widget -->
-<script async src="https://telegram.org/js/telegram-widget.js?22"
-        data-telegram-login="TestAuth34766543_bot"
-        data-size="large"
-        data-onauth="onTelegramAuth(user)"
-        data-request-access="write"></script>
 
 <script>
     var container = document.querySelector("#unity-container");
@@ -113,22 +114,6 @@
             fullscreenButton.onclick = () => {
                 unityInstance.SetFullscreen(1);
             };
-
-            // Function to open Telegram widget
-            function openTelegramWidget() {
-                // Show centered content with Telegram button
-                centeredContent.style.display = 'block';
-            }
-
-            // Wait for the Telegram widget to be fully loaded
-            var intervalId = setInterval(function() {
-                var widget = document.querySelector('.telegram-login-button');
-                if (widget) {
-                    clearInterval(intervalId); // Stop checking once found
-                    openTelegramWidget(); // Show the centered content
-                }
-            }, 1000); // Check every second
-
         }).catch((message) => {
             alert(message);
         });
@@ -140,7 +125,8 @@
         alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
         // Hide centered content
         centeredContent.style.display = 'none';
-        // Add any additional logic here after authentication
+        // Show the Unity container
+        container.style.display = 'block';
     }
 </script>
 </body>
