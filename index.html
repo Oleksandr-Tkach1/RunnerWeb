@@ -27,15 +27,23 @@
 <!-- Telegram Widget -->
 <div class="widget_frame_base tgme_widget body_widget_login">
     <div class="tgme_widget_login large" id="widget_login">
-        <button class="btn tgme_widget_login_button" onclick="redirectToTelegramAuth();">
+        <button class="btn tgme_widget_login_button" onclick="return TWidgetLogin.auth();">
             <i class="tgme_widget_login_button_icon"></i>
             Войти как <span dir="auto">Oleksandr</span>
         </button>
-        <i class="tgme_widget_login_user_photo bgcolor4" data-content="O" onclick="redirectToTelegramAuth();">
+        <i class="tgme_widget_login_user_photo bgcolor4" data-content="O" onclick="return TWidgetLogin.auth();">
             <img src="https://cdn4.telesco.pe/file/HKgfmRkklJ1EdiJi5MKGM5L4LSIxl_sfNY_nCQhAp6qtP8U3PSYMWEbDzDqAuobnZfBjZVu1LFqLsAG-D58MoToNTwG9KHG9N2lAARIhEVT2wgUsyYFQQWpt5cpXKGQg7ZzA523yWXq_EGUwZS1TsjTzBQqlPmvUhDmYZF8JTtphZqhP3-cqypEkaC1-N1hcZj5Se1llocis2l0FqEgvOUoZDQq5slYj1vaGJFL9wPWZYA3g5O01cuMhdLghjP51Iu9zwRV2qtMoYm2vA7Ut00a1hHfXCqyVPLpaCZNXlDHaavJSfq5UnLGk8sdnWWTdA914SEHJkdJDOwlvG1IhGA.jpg">
         </i>
     </div>
     <script src="https://telegram.org/js/widget-frame.js?62"></script>
+    <script>
+        TWidgetLogin.init('widget_login', 7403200592, {
+            "origin": "https://oauth.telegram.org",
+            "embed": 1,
+            "request_access": "write",
+            "return_to": "https://oauth.telegram.org"
+        }, false);
+    </script>
 </div>
 
 <script>
@@ -46,6 +54,7 @@
     var fullscreenButton = document.querySelector("#unity-fullscreen-button");
     var warningBanner = document.querySelector("#unity-warning");
 
+    // Function to show a temporary message banner/ribbon
     function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
             warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
@@ -77,6 +86,7 @@
         showBanner: unityShowBanner,
     };
 
+    // Check if the user is on a mobile device
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         var meta = document.createElement('meta');
         meta.name = 'viewport';
@@ -102,22 +112,26 @@
                 unityInstance.SetFullscreen(1);
             };
 
+            // Function to open Telegram widget
             function openTelegramWidget() {
+                // Check if the Telegram widget button exists
                 var widget = document.querySelector('.tgme_widget_login_button');
                 if (widget) {
+                    // Click the widget
                     widget.click();
                 } else {
                     console.error('Telegram widget button not found.');
                 }
             }
 
+            // Wait for the Telegram widget to be fully loaded
             var intervalId = setInterval(function() {
                 var widget = document.querySelector('.tgme_widget_login_button');
                 if (widget) {
-                    clearInterval(intervalId);
-                    openTelegramWidget();
+                    clearInterval(intervalId); // Stop checking once found
+                    openTelegramWidget(); // Click the widget
                 }
-            }, 1000);
+            }, 1000); // Check every second
 
         }).catch((message) => {
             alert(message);
@@ -125,13 +139,10 @@
     };
     document.body.appendChild(script);
 
-    function redirectToTelegramAuth() {
-        var url = "https://oauth.telegram.org/auth?bot_id=7403200592&origin=https%3A%2F%2Foleksandr-tkach1.github.io&embed=1&request_access=write&return_to=https%3A%2F%2Foleksandr-tkach1.github.io%2FRunnerWeb%2F";
-        window.open(url, '_blank');
-    }
-
+    // Callback function when user is authenticated via Telegram
     function onTelegramAuth(user) {
         alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+        // Add any additional logic here after authentication
     }
 </script>
 </body>
