@@ -19,11 +19,20 @@
     }
 
     window.addEventListener('load', function() {
+      console.log("Page fully loaded.");
       const intervalId = setInterval(() => {
         const telegramButton = document.querySelector('[data-telegram-login]');
         if (telegramButton) {
-          telegramButton.click();
-          clearInterval(intervalId);
+          console.log("Telegram button found:", telegramButton);
+          try {
+            telegramButton.click();
+            console.log("Telegram button clicked.");
+            clearInterval(intervalId);
+          } catch (error) {
+            console.error("Error clicking the Telegram button:", error);
+          }
+        } else {
+          console.log("Telegram button not found yet.");
         }
       }, 500);
     });
