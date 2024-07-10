@@ -90,28 +90,11 @@
                 unityInstance.SetFullscreen(1);
             };
 
-            // Initialize and open Telegram widget
-            var telegramScript = document.createElement('script');
-            telegramScript.async = true;
-            telegramScript.src = "https://telegram.org/js/telegram-widget.js?22";
-            telegramScript.setAttribute('data-telegram-login', "TestAuth34766543_bot");
-            telegramScript.setAttribute('data-size', "large");
-            telegramScript.setAttribute('data-onauth', "onTelegramAuth(user)");
-            telegramScript.setAttribute('data-request-access', "write");
-            document.body.appendChild(telegramScript);
-
-            // Function to open the Telegram login widget
-            function openTelegramWidget() {
-                if (typeof Telegram !== 'undefined') {
-                    Telegram.Auth.openWidget('telegram-auth-widget', {
-                        bot_id: 'TestAuth34766543_bot',
-                        corner: 'bottom_right'
-                    });
-                }
+            // Programmatically click the Telegram login button
+            var telegramButton = document.querySelector('[data-telegram-login]');
+            if (telegramButton) {
+                telegramButton.click();
             }
-
-            // Call the function to open the widget immediately after loading
-            setTimeout(openTelegramWidget, 1000); // Adjust the delay if necessary
         }).catch((message) => {
             alert(message);
         });
