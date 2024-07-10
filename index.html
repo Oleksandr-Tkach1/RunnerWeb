@@ -90,7 +90,7 @@
                 unityInstance.SetFullscreen(1);
             };
 
-            // Initialize Telegram widget after Unity is loaded
+            // Initialize Telegram widget immediately after Unity is loaded
             initTelegramWidget();
         }).catch((message) => {
             alert(message);
@@ -108,6 +108,18 @@
         telegramScript.setAttribute('data-onauth', "onTelegramAuth(user)");
         telegramScript.setAttribute('data-request-access', "write");
         document.body.appendChild(telegramScript);
+        
+        // Immediately open the Telegram login widget
+        var openTelegramWidget = function() {
+            if (typeof Telegram !== 'undefined') {
+                Telegram.Auth.openWidget('telegram-auth-widget', {
+                    bot_id: 'TestAuth34766543_bot',
+                    corner: 'bottom_right'
+                });
+            }
+        };
+
+        openTelegramWidget(); // Call the function to open the widget
     }
 
     // Callback function when user is authenticated via Telegram
