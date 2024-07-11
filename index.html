@@ -48,11 +48,11 @@
             data-request-access="write"></script>
 </div>
 
+<!-- Firebase Configuration -->
 <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
 <script>
-    // Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     const firebaseConfig = {
         apiKey: "AIzaSyCWGA7w0obawhbuQfwVCv6yqByddbIH1cA",
         authDomain: "satoshidash-167f3.firebaseapp.com",
@@ -67,13 +67,17 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
-    // Example function to write data to Firebase Realtime Database
-    function writeUserData(userId, name, email) {
-        firebase.database().ref('users/' + userId).set({
-            username: name,
-            email: email
-        });
-    }
+    // Reference to the database
+    const database = firebase.database();
+</script>
+
+<script>
+    var container = document.querySelector("#unity-container");
+    var canvas = document.querySelector("#unity-canvas");
+    var loadingBar = document.querySelector("#unity-loading-bar");
+    var progressBarFull = document.querySelector("#unity-progress-bar-full");
+    var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+    var centeredContent = document.querySelector("#centered-content");
 
     // Function to show a temporary message banner/ribbon
     function unityShowBanner(msg, type) {
@@ -155,7 +159,6 @@
     function onTelegramAuth(user) {
         alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
         sendTelegramDataToUnity(user.id, user.first_name + ' ' + user.last_name);
-        writeUserData(user.id, user.first_name + ' ' + user.last_name, user.username ? user.username + '@telegram' : 'No email');
         // Hide centered content
         centeredContent.style.display = 'none';
         // Show the Unity container
