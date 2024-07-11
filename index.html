@@ -122,13 +122,30 @@
     document.body.appendChild(script);
 
     // Callback function when user is authenticated via Telegram
+    // function onTelegramAuth(user) {
+    //     alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+    //     // Hide centered content
+    //     centeredContent.style.display = 'none';
+    //     // Show the Unity container
+    //     container.style.display = 'block';
+    // }
+
     function onTelegramAuth(user) {
-        alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
-        // Hide centered content
-        centeredContent.style.display = 'none';
-        // Show the Unity container
-        container.style.display = 'block';
-    }
+    var userId = user.id.toString();
+    var username = user.username || "";
+
+    alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+
+    // Hide centered content
+    centeredContent.style.display = 'none';
+    // Show the Unity container
+    container.style.display = 'block';
+
+    // Call the C# methods from Unity
+    unityInstance.SendMessage('TelegramAuthHandler', 'GetUserIdFromJS', userId);
+    //unityInstance.SendMessage('TelegramAuthHandler', 'GetUsernameFromJS', username);
+}
+
 </script>
 </body>
 </html>
