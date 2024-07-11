@@ -142,7 +142,7 @@
     container.style.display = 'block';
 
     // Call the C# methods from Unity
-    unityInstance.SendMessage('TelegramAuthHandler', 'GetUserIdFromJS', userId);
+    unityInstance.SendMessage('LoginWebGL', 'GetUserIdFromJS', userId);
     //unityInstance.SendMessage('TelegramAuthHandler', 'GetUsernameFromJS', username);
 }
 
