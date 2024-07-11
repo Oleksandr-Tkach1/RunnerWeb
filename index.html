@@ -110,6 +110,7 @@
         createUnityInstance(canvas, config, (progress) => {
             progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
+            window.unityInstance = unityInstance; // Save Unity instance globally
             loadingBar.style.display = "none";
             fullscreenButton.onclick = () => {
                 unityInstance.SetFullscreen(1);
@@ -121,30 +122,25 @@
     
     document.body.appendChild(script);
 
+    // Function to send data to Unity
+    function sendTelegramDataToUnity(userId, userName) {
+        var unityInstance = window.unityInstance;
+        if (unityInstance) {
+            unityInstance.SendMessage('GameManager', 'ReceiveTelegramData', userId + ',' + userName);
+        } else {
+            console.error('Unity instance not found');
+        }
+    }
+
     // Callback function when user is authenticated via Telegram
-    // function onTelegramAuth(user) {
-    //     alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
-    //     // Hide centered content
-    //     centeredContent.style.display = 'none';
-    //     // Show the Unity container
-    //     container.style.display = 'block';
-    // }
-
     function onTelegramAuth(user) {
-    var userId = user.id.toString();
-    var username = user.username || "";
-
-    alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
-
-    // Hide centered content
-    centeredContent.style.display = 'none';
-    // Show the Unity container
-    container.style.display = 'block';
-
-    // Call the C# methods from Unity
-    unityInstance.SendMessage('LoginWebGL', 'GetUserIdFromJS', userId);
-    //unityInstance.SendMessage('TelegramAuthHandler', 'GetUsernameFromJS', username);
-}
+        alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+        sendTelegramDataToUnity(user.id, user.first_name + ' ' + user.last_name);
+        // Hide centered content
+        centeredContent.style.display = 'none';
+        // Show the Unity container
+        container.style.display = 'block';
+    }
 
 </script>
 </body>
